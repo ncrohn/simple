@@ -9,5 +9,5 @@ app = connect()
   .use(connect.multipart({ uploadDir: upPath }))
   .use(
     function(req, res) {
-
+      res.end(200);
     }).listen(3055);

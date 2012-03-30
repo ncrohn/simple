@@ -1,3 +1,10 @@
+/**
+ *
+ * Copyright(c) 2012 Nick Crohn <nick.crohn@gmail.com>
+ * MIT LICENSE
+ *
+ */
+
 var connect = require('connect'),
     path = require('path'),
     spawn = require('child_process').spawn,

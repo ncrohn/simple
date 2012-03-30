@@ -10,9 +10,10 @@ var connect = require('connect'),
     spawn = require('child_process').spawn,
     credentials = require('./lib/credentials'),
     fs = require('fs'),
-    app, upPath;
+    app, upPath, pubPath;
 
 upPath = path.join(__dirname, 'upload');
+pubPath = path.join(__dirname, 'public');
 
 path.exists(upPath,
   function(exists) {
@@ -24,8 +25,18 @@ path.exists(upPath,
     }
   });
 
+path.exists(pubPath,
+  function(exists) {
+    if(!exists) {
+      fs.mkdir(pubPath,
+        function(err) {
+          if(err) console.log(err);
+        });
+    }
+  });
+
 app = connect()
-  .use(connect.static(path.join(__dirname, 'public')))
+  .use(connect.static(pubPath))
   .use(credentials())
   .use(connect.multipart({ uploadDir: upPath }))
   .use(

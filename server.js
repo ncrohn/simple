@@ -44,7 +44,7 @@ app = connect()
 
       if(req.files.hasOwnProperty('upload')) {
         var file = req.files.upload,
-            unzip = spawn('unzip', ['-o', '-d', path.join(__dirname, 'public'), file.path]);
+            unzip = spawn('unzip', ['-o', '-d', pubPath, file.path]);
 
         unzip.stdout.on('data',
           function (data) {
@@ -53,7 +53,7 @@ app = connect()
 
         unzip.stderr.on('data',
           function (data) {
-            //console.log(data);
+            console.log(data);
           });
 
         unzip.on('exit',

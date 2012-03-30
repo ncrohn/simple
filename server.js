@@ -16,11 +16,11 @@ app = connect()
             unzip = spawn('unzip', ['-o', '-d', path.join(__dirname, 'public'), file.path]);
 
         unzip.stdout.on('data', function (data) {
-          console.log(data);
+          //console.log(data);
         });
 
         unzip.stderr.on('data', function (data) {
-          console.log(data);
+          //console.log(data);
         });
 
         unzip.on('exit', function (code) {
@@ -30,13 +30,16 @@ app = connect()
           } else {
             console.log('Completed upload.');
             res.end('success');
+
+            // Cleanup the files
+            fs.unlink(file.path,
+              function(err) {
+                if(err) console.log(err);
+              });
           }
         });
 
-        fs.rmdir(file.path,
-          function(err) {
-            if(err) console.log(err);
-          });
+
 
       }
     }).listen(3055);

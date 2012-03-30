@@ -6,6 +6,16 @@ var connect = require('connect'),
 
 upPath = path.join(__dirname, 'upload');
 
+path.exists(upPath,
+  function(exists) {
+    if(!exists) {
+      fs.mkdir(upPath,
+        function(err) {
+          if(err) console.log(err);
+        });
+    }
+  });
+
 app = connect()
   .use(connect.static(path.join(__dirname, 'public')))
   .use(connect.multipart({ uploadDir: upPath }))
@@ -38,8 +48,6 @@ app = connect()
               });
           }
         });
-
-
 
       }
     }).listen(3055);

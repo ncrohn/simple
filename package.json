@@ -2,7 +2,10 @@
   "author": "Nick Crohn <ncrohn@me.com> (http://nickcrohn.com)",
   "name": "simple",
   "description": "Simple server",
-  "version": "0.0.0",
+  "version": "0.1.0",
+  "domains": [
+    "liveproject.notconf.com"
+  ],
   "repository": {
     "type": "git",
     "url": "git://github.com/ncrohn/simple.git"
@@ -14,8 +17,10 @@
   "dependencies": {
     "connect": "2.0.3"
   },
-  "devDependencies": {
-  },
-  "optionalDependencies": {
+  "devDependencies": {},
+  "optionalDependencies": {},
+  "subdomain": "notconf-live",
+  "scripts": {
+    "start": "server.js"
   }
 }

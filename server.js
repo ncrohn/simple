@@ -10,12 +10,33 @@ var connect = require('connect'),
     spawn = require('child_process').spawn,
     credentials = require('./lib/credentials'),
     fs = require('fs'),
-    app, upPath;
+    app, upPath, pubPath;
 
 upPath = path.join(__dirname, 'upload');
+pubPath = path.join(__dirname, 'public');
+
+path.exists(upPath,
+  function(exists) {
+    if(!exists) {
+      fs.mkdir(upPath,
+        function(err) {
+          if(err) console.log(err);
+        });
+    }
+  });
+
+path.exists(pubPath,
+  function(exists) {
+    if(!exists) {
+      fs.mkdir(pubPath,
+        function(err) {
+          if(err) console.log(err);
+        });
+    }
+  });
 
 app = connect()
-  .use(connect.static(path.join(__dirname, 'public')))
+  .use(connect.static(pubPath))
   .use(credentials())
   .use(connect.multipart({ uploadDir: upPath }))
   .use(
@@ -23,7 +44,7 @@ app = connect()
 
       if(req.files.hasOwnProperty('upload')) {
         var file = req.files.upload,
-            unzip = spawn('unzip', ['-o', '-d', path.join(__dirname, 'public'), file.path]);
+            unzip = spawn('unzip', ['-o', '-d', pubPath, file.path]);
 
         unzip.stdout.on('data',
           function (data) {
@@ -32,7 +53,7 @@ app = connect()
 
         unzip.stderr.on('data',
           function (data) {
-            //console.log(data);
+            console.log(data);
           });
 
         unzip.on('exit',
